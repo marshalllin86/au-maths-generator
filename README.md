@@ -73,3 +73,4 @@ The GUI offers integer, fraction, percentage, and decimal addition, subtraction,
 ## Original project
 
 This project builds on [januschung/math-worksheet-generator](https://github.com/januschung/math-worksheet-generator), licensed under GPL-2.0. Its original command-line generator remains in `run.py`; the new desktop workflow starts from `app.py`.
+For Cloudflare Workers Builds, use this branch (`cloudflare-web-preview`), root directory `/`, build command `uv sync`, and deploy command `uv run pywrangler deploy`. Push a new commit to this branch to trigger a fresh build after changing the branch settings.
