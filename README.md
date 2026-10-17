@@ -1,106 +1,56 @@
-# Math Worksheet Generator
+# Daily Practice Worksheet Generator
 
-![sample worksheet](sample.png)
-![sample answer sheet](sample-answer.png)
+A small desktop app for creating English math practice worksheets as PDFs.
 
-## Background
-My best friend tests his 5 year old basic math questions from store-bought material which is good for one time use (his son memorizes the answers) …. but he wants to give him more practice.
+## First version
 
-Two solutions:
-1. keep buying more one time usage materials (less beer budget); or
-2. make question sets with the number pairs and calculate the answer for each question manually (less beer time)
+- The GUI creates five A4 worksheets in one batch under the same settings. Each worksheet contains 30 questions: 20 questions of the selected operation and 10 mixed questions.
+- Mixed questions use one operation per question and draw from integer, fraction, percentage, and decimal arithmetic.
+- The PDF has a student worksheet followed by a separate answer key.
+- The student page is titled **Daily Practice** and has Name, Date, Time, and Score fields on one line.
+- Subtraction questions do not produce negative answers. Integer division uses a one- or two-digit dividend. Decimal division has a terminating answer with at most three decimal places.
+- Percentage multiplication includes percentage × percentage and percentage × whole number.
+- Daily tracking and error review are reserved for a later version.
 
-Not ideal.
+## Weekly print pack
 
-That's the reason for me to look into an automate way to get the job done.
+The weekly print section has five independent topic selectors. Choose any supported single-operation topic for each worksheet; topics can be repeated. The initial selection is 3 integer addition/subtraction worksheets, 1 integer multiplication/division worksheet, and 1 fraction addition worksheet. The app remembers the selection in `Math\weekly_selection.json`.
 
-## Benefit of the Math Worksheet Generator
-With the Math Worksheet Generator, you can create a PDF with unique questions, as needed, in a fraction of second.
+The five original PDFs, including answer keys, are saved under the configured output folder's `Generated\YYYY-MM-DD` directory. The app also makes student-only two-page PDFs, sends pages 1–2 to the selected printer, and moves successfully submitted print copies under `Printed\YYYY-MM-DD`. If a print job fails, its two-page PDF stays in `Print Queue\YYYY-MM-DD` for retry. The app does not print automatically on a weekly schedule; click the button when you are ready. Only the five topics currently selected in the GUI are generated and submitted for printing.
 
-There are five choices:
-1. Addition
-2. Subtraction
-3. Multiplication
-4. Division
-5. Mixed
+The app uses the printer named by optional `PREFERRED_PRINTER` in `.env` when Windows reports it as available; otherwise, it uses the first available printer. Printing uses SumatraPDF. An installed `SumatraPDF.exe` on `PATH` is used automatically. Alternatively, download the portable 64-bit SumatraPDF and place it at `tools\sumatra\SumatraPDF-3.6.1-64.exe`; this local executable is ignored by Git. See [SumatraPDF installation](https://www.sumatrapdfreader.org/docs/Installation).
 
-## Requirements
-[python3.11](https://www.python.org/downloads/)
+## Run
 
-Install required package with the following command:
-```
-pip install -r requirements.txt
+Install Python 3.11 or later, create a local virtual environment, then install the PDF dependency:
+
+```powershell
+python -m venv .venv --without-pip
+python -m pip install --target .venv\Lib\site-packages -r requirements.txt
 ```
 
-## How to Use
-1. Generate the worksheet in pdf format with the following command:
-```
-python3 run.py --type [+|-|x|/|mix] --digits [1|2|3] [-q|--question_count] [int] --output [custom-name.pdf] --title [title-at-front-page]
-```
-2. Print out the generated file `worksheet.pdf`
+Copy `.env.example` to a local `.env` beside `app.py` and set `MATH_OUTPUT_DIR` to the output folder. Relative paths are resolved from the project directory. For example:
 
-For addition only worksheet:
-```
-python3 run.py --type +
-```
-For calculation up to 3 digits range:
-```
-python3 run.py --digits 3
-```
-For generating different number of question, eg. 100 (default is 80):
-```
-python3 run.py -q 100
-```
-or
-```
-python3 run.py --question_count 100
-```
-For custom output filename (default is worksheet.pdf):
-```
-python3 run.py --output custom-name.pdf
-```
-For adding a front page with title, name, date, and score fields:  
-Use default title 'Math Practice Worksheet'
-```
-python3 run.py --title 
-```
-or specify custom title
-```
-python3 run.py --title 'Math Quiz 1'
+```dotenv
+MATH_OUTPUT_DIR=./Math
 ```
 
-## Sample
-[sample worksheet](sample-worksheet.pdf)
+The `.env` file is ignored by Git so machine-specific paths are not uploaded.
 
-## Code Overview
-Everything is written in python in `run.py`. You can play with the font and grid size with the variables under the `# Basic settings` section.
+Launch the GUI:
 
-## Contributing
-I appreciate all suggestions or PRs which will help kids learn math better. Feel free to fork the project and create a pull request with your idea.
+```powershell
+.\.venv\Scripts\python.exe app.py
+```
 
-## TODO
-Nil
+Choose the operation for the 20 single-operation questions, then choose an output folder. Five distinct worksheets are generated with the remaining 10 questions mixed automatically. Each file includes its own answer key.
 
-## Special Thanks
-My long time friend San for the inspiration of this project and lovely sons Tim and Hin. Thanks [thedanimal](https://github.com/thedanimal) for reviewing this README and adding new features.
+Files are named like `Daily Practice - integer-add - 30 Questions - Set 01 of 05.pdf`; the selected operation, question count, and batch position are included. If a name already exists, a revision suffix is added so earlier exports are kept.
 
-Also, thank you for the love and support form the [Reddit Python community](https://www.reddit.com/r/Python/comments/ja5y2m/made_this_tool_with_python_and_my_son_now_hates_me/). You guys are amazing and are helping me to make this project better.
+## Operation choices
 
-## Successful Story
-Thanks [k1m0ch1](https://github.com/k1m0ch1) for sharing this heartwarming story:
->...I made this card for my kid, and then the teacher asks me if I can make some for the kids, well its generated anyway and very helpful, and the next day he asks me to make for a whole class, and next day he wants me to make for a whole school, and a weeks later other schools want me to help to make for a whole school.    
-    more than 1000 generated file, with a custom filename for every kid and sent to the email
-    I'm doing it for free, while you made this free, love it <3
+The GUI offers integer, fraction, percentage, and decimal addition, subtraction, multiplication, and division. Percentage multiplication randomly includes both supported forms. Fraction answers are reduced to simplest form.
 
-## Links
-Thank you for your coverage. 
+## Original project
 
-[PyCoder's Weekly Issue #442](https://pycoders.com/issues/442)
-
-[PyCoder's Weekly Twitter](https://twitter.com/pycoders/status/1316379986417381376)
-
-[Real Python Facebook](https://www.facebook.com/LearnRealPython/posts/1688239528018053?__tn__=-R)
-
-[Github Trends Telegram](https://t.me/githubtrending/9007)
-
-[Python Trending Twitter](https://twitter.com/pythontrending/status/1316659466935373826)
+This project builds on [januschung/math-worksheet-generator](https://github.com/januschung/math-worksheet-generator), licensed under GPL-2.0. Its original command-line generator remains in `run.py`; the new desktop workflow starts from `app.py`.
