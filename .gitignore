@@ -4,6 +4,10 @@
 
 venv/
 .venv/
+.venv-workers/
+.uv-cache/
+python_modules/
+node_modules/
 tools/sumatra/
 __pycache__/
 Math/

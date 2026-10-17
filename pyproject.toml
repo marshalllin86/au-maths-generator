@@ -1,0 +1,19 @@
+[project]
+name = "au-maths-generator"
+version = "0.1.0"
+description = "Cloudflare-hosted web interface for the Daily Practice worksheet generator"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi",
+]
+
+[project.optional-dependencies]
+desktop = [
+    "fpdf2==2.7.4",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]

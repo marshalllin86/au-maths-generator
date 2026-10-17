@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "au-maths-generator",
+  "main": "cloudflare_worker.py",
+  "compatibility_date": "2026-10-17",
+  "compatibility_flags": ["python_workers"],
+  "assets": {
+    "directory": "./public/",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}

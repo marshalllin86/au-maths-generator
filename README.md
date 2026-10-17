@@ -26,7 +26,7 @@ Install Python 3.11 or later, create a local virtual environment, then install t
 
 ```powershell
 python -m venv .venv --without-pip
-python -m pip install --target .venv\Lib\site-packages -r requirements.txt
+python -m pip install --target .venv\Lib\site-packages "fpdf2==2.7.4"
 ```
 
 Copy `.env.example` to a local `.env` beside `app.py` and set `MATH_OUTPUT_DIR` to the output folder. Relative paths are resolved from the project directory. For example:
@@ -46,6 +46,25 @@ Launch the GUI:
 Choose the operation for the 20 single-operation questions, then choose an output folder. Five distinct worksheets are generated with the remaining 10 questions mixed automatically. Each file includes its own answer key.
 
 Files are named like `Daily Practice - integer-add - 30 Questions - Set 01 of 05.pdf`; the selected operation, question count, and batch position are included. If a name already exists, a revision suffix is added so earlier exports are kept.
+
+## Web preview (Cloudflare Workers)
+
+The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. Users can reveal the answer key on screen and print only the worksheet or save it as a PDF through the browser print dialog. The existing desktop PDF and printer workflow remains separate.
+
+The static page is in `public/`, and `cloudflare_worker.py` provides the FastAPI endpoints. Cloudflare serves both through a Python Worker. Install the Cloudflare tooling and run a local preview with:
+
+```powershell
+uv sync
+uv run pywrangler dev
+```
+
+Deploy after authenticating Wrangler with your Cloudflare account:
+
+```powershell
+uv run pywrangler deploy
+```
+
+The first deployment should use the generated `workers.dev` URL. Add `mathsgenerator.flow-ai.top` in the Cloudflare Worker custom-domain settings only after the preview works and after checking what currently serves that hostname.
 
 ## Operation choices
 
