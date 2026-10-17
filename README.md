@@ -2,6 +2,12 @@
 
 A small desktop app for creating English math practice worksheets as PDFs.
 
+## Try it online
+
+Generate a worksheet in your browser at **[mathsgenerator.flow-ai.top](https://mathsgenerator.flow-ai.top/)**. Choose a main practice topic to create a fresh 30-question worksheet: 20 questions on your selected topic and 10 mixed questions. You can show the answers on screen, print the student worksheet, or save it as a PDF. The answer key is not included in the printed worksheet.
+
+The web generator runs on Cloudflare Workers. You can also run the desktop app locally to generate batches of worksheets and use the weekly print workflow described below.
+
 ## First version
 
 - The GUI creates five A4 worksheets in one batch under the same settings. Each worksheet contains 30 questions: 20 questions of the selected operation and 10 mixed questions.
