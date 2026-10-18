@@ -25,6 +25,15 @@ async def categories() -> list[dict[str, str]]:
     return [{"label": label, "value": value} for label, value in SINGLE_CATEGORIES.items()]
 
 
+@app.get("/api/config")
+async def client_config(request: Request) -> dict[str, str | None]:
+    env = request.scope["env"]
+    return {
+        "supabaseUrl": getattr(env, "SUPABASE_URL", None),
+        "supabasePublishableKey": getattr(env, "SUPABASE_PUBLISHABLE_KEY", None),
+    }
+
+
 @app.post("/api/worksheet")
 async def generate_worksheet(payload: WorksheetRequest) -> dict[str, object]:
     if payload.category not in set(SINGLE_CATEGORIES.values()):

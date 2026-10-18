@@ -36,6 +36,26 @@
         <button id="generate-button" type="submit">Generate worksheet</button>
       </form>
 
+      <section class="auth-panel" aria-labelledby="progress-heading">
+        <h2 id="progress-heading">Progress tracking</h2>
+        <p class="note">Sign in to save the topics you practise and your scores.</p>
+        <form id="auth-form">
+          <label for="auth-email">Email</label>
+          <input id="auth-email" name="email" type="email" autocomplete="email" required>
+          <label for="auth-password">Password</label>
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" minlength="8" required>
+          <div class="auth-actions">
+            <button id="sign-in-button" type="submit">Sign in</button>
+            <button id="sign-up-button" class="secondary" type="button">Create account</button>
+          </div>
+        </form>
+        <div id="account-panel" hidden>
+          <p id="signed-in-email" class="account-email"></p>
+          <button id="sign-out-button" class="secondary" type="button">Sign out</button>
+        </div>
+        <p id="auth-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
       <div class="actions" id="worksheet-actions" hidden>
         <button class="secondary" id="print-button" type="button">Print worksheet</button>
         <button class="text-button" id="answers-button" type="button" aria-expanded="false">Show answers</button>
@@ -69,10 +89,32 @@
         <ol id="answers-list"></ol>
       </section>
     </section>
+    <section id="progress-section" class="progress-section" aria-labelledby="history-heading" hidden>
+      <div id="save-panel" hidden>
+        <h2>Save practice result</h2>
+        <p id="record-topic" class="note"></p>
+        <form id="progress-form">
+          <div class="progress-field">
+            <label for="practice-date">Practice date</label>
+            <input id="practice-date" name="practice-date" type="date" required>
+          </div>
+          <div class="progress-field">
+            <label for="practice-score">Score out of 30</label>
+            <input id="practice-score" name="practice-score" type="number" min="0" max="30" step="1" required>
+          </div>
+          <button id="save-score-button" type="submit">Save score</button>
+        </form>
+        <p id="save-status" class="status" role="status" aria-live="polite"></p>
+      </div>
+      <h2 id="history-heading">Recent practice history</h2>
+      <p id="history-empty" class="note">Your saved results will appear here.</p>
+      <ol id="practice-history" class="practice-history"></ol>
+    </section>
     <footer class="site-footer">
       <a href="https://github.com/marshalllin86/au-maths-generator" target="_blank" rel="noopener noreferrer">View this project on GitHub</a>
     </footer>
   </main>
   <script src="/app.js" defer></script>
+  <script type="module" src="/progress.js"></script>
 </body>
 </html>

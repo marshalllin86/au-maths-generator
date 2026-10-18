@@ -16,7 +16,7 @@ The web generator runs on Cloudflare Workers. You can also run the desktop app l
 - The student page is titled **Daily Practice** and has Name, Date, Time, and Score fields on one line.
 - Subtraction questions do not produce negative answers. Integer division uses a one- or two-digit dividend. Decimal division has a terminating answer with at most three decimal places.
 - Percentage multiplication includes percentage × percentage and percentage × whole number.
-- Daily tracking and error review are reserved for a later version.
+- The web version supports manual progress tracking after signing in. Question-by-question answer tracking and error review are future work.
 
 ## Weekly print pack
 
@@ -71,6 +71,14 @@ uv run pywrangler deploy
 ```
 
 The first deployment should use the generated `workers.dev` URL. Add `mathsgenerator.flow-ai.top` in the Cloudflare Worker custom-domain settings only after the preview works and after checking what currently serves that hostname.
+
+## Web progress tracking
+
+The web page uses Supabase Auth for email/password sign-in and `public.practice_sessions` to store a user's practice date, main topic, and manually entered score out of 30. Signed-in users can see their latest 30 records. Row Level Security restricts reads and inserts to the signed-in user's own records. The schema is recorded in `supabase/migrations/20261018001023_create_practice_sessions.sql`.
+
+The Cloudflare Worker returns `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from `wrangler.jsonc` at `/api/config`. The publishable key is intended for browser use; database access is protected by RLS. Never put a Supabase secret or service-role key in the browser or this public repository. Supabase JS is loaded from a version-pinned CDN URL.
+
+In Supabase Auth settings, allow the app's origin as a redirect URL, including `https://mathsgenerator.flow-ai.top` and `http://localhost:8787` for local development. If email confirmation is enabled, users must confirm the signup email before signing in.
 
 ## Operation choices
 

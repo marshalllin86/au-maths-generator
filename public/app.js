@@ -47,6 +47,13 @@ form.addEventListener("submit", async (event) => {
     worksheet.hidden = false;
     actions.hidden = false;
     statusText.textContent = "Your new 30-question worksheet is ready.";
+    document.dispatchEvent(new CustomEvent("worksheet:generated", {
+      detail: {
+        category: categorySelect.value,
+        label: categorySelect.selectedOptions[0].textContent,
+        totalQuestions: data.single.length + data.mixed.length,
+      },
+    }));
   } catch (error) {
     statusText.textContent = error.message;
   } finally {

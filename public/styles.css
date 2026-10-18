@@ -55,6 +55,27 @@ button:focus-visible, select:focus-visible { outline: 3px solid #86b9a4; outline
 .status { min-height: 20px; color: var(--muted); font-size: 13px; }
 .note { margin-top: 24px; font-size: 12px; }
 
+.auth-panel { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+.auth-panel h2, .progress-section h2 { margin: 0; font-family: Georgia, serif; font-size: 21px; }
+.auth-panel .note { margin: 8px 0 16px; }
+.auth-panel form, .progress-section form { margin-top: 16px; }
+.auth-panel input, .progress-section input { width: 100%; margin: 0 0 14px; padding: 11px 10px; border: 1px solid #cbd7d0; border-radius: 9px; background: white; color: var(--ink); font: inherit; }
+.auth-panel input:focus-visible, .progress-section input:focus-visible { outline: 3px solid #86b9a4; outline-offset: 2px; }
+.auth-actions { display: grid; gap: 9px; }
+.account-email { overflow-wrap: anywhere; font-size: 13px; }
+.progress-section { grid-column: 1 / -1; padding: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 12px 35px #28473a0c; }
+.progress-section form { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) auto; gap: 8px 14px; align-items: end; }
+.progress-field label { margin: 0 0 8px; }
+.progress-field input { margin: 0; }
+.progress-section form button { min-height: 43px; }
+.progress-section > .status { margin: 12px 0; }
+.progress-section h2:last-of-type { margin-top: 22px; }
+.practice-history { margin: 14px 0 0; padding: 0; list-style: none; }
+.practice-history li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 18px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.history-topic { font-weight: 700; }
+.history-result { color: var(--muted); font-variant-numeric: tabular-nums; }
+.status.error { color: #a32929; }
+
 .worksheet { min-height: 720px; padding: 30px 34px; }
 .worksheet-header h2 { margin: 0 0 14px; text-align: center; font-family: Georgia, serif; font-size: 28px; }
 .student-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 14px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); font-size: 12px; }
@@ -84,13 +105,14 @@ button:focus-visible, select:focus-visible { outline: 3px solid #86b9a4; outline
   .app-shell { width: min(100% - 22px, 600px); gap: 14px; }
   .question-columns { grid-template-columns: 1fr; gap: 0; }
   .student-line { justify-content: flex-start; }
+  .progress-section form { grid-template-columns: 1fr; }
 }
 
 @media print {
   @page { size: A4; margin: 13mm 15mm; }
   body { background: white; color: #111; font-family: Arial, sans-serif; }
   .app-shell { display: block; width: 100%; margin: 0; }
-  .controls, .answer-key, .site-footer { display: none !important; }
+  .controls, .answer-key, .site-footer, .progress-section { display: none !important; }
   .worksheet { display: block !important; min-height: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
   .worksheet-header h2 { margin: 0 0 10px; font-size: 20px; }
   .student-line { gap: 8px; padding-bottom: 9px; font-size: 10px; }
