@@ -61,7 +61,7 @@
         <button class="text-button" id="answers-button" type="button" aria-expanded="false">Show answers</button>
       </div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
-      <p class="note">Use your browser’s print window to print or save the worksheet as a PDF. The answer key is excluded from printing.</p>
+      <p class="note">Use your browser’s print window to print or save the worksheet as a two-page PDF. Questions 1–20 print on page 1, and questions 21–30 print on page 2. The answer key is excluded from printing.</p>
     </section>
 
     <section id="worksheet" class="worksheet" aria-label="Generated worksheet" hidden>
@@ -80,6 +80,15 @@
           <ol id="main-questions" class="question-list"></ol>
         </section>
         <section class="question-section">
+          <div class="print-continuation-header">
+            <h2>Daily Practice (continued)</h2>
+            <div class="student-line">
+              <span>Name: __________________</span>
+              <span>Date: ____________</span>
+              <span>Time: ______</span>
+              <span>Score: ____ / 30</span>
+            </div>
+          </div>
           <h3>Mixed practice</h3>
           <ol id="mixed-questions" class="question-list" start="21"></ol>
         </section>

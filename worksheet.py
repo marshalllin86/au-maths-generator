@@ -92,13 +92,15 @@ def generate_question(category: str) -> Question:
     if category == "integer_multiply_divide":
         return generate_question(random.choice(("integer_multiply", "integer_divide")))
 
-    if category in {"integer_add", "integer_subtract", "integer_multiply"}:
+    if category in {"integer_add", "integer_subtract"}:
         a, b = random.randint(10, 999), random.randint(10, 999)
         if category == "integer_add":
             return Question(f"{a} + {b} =", str(a + b), category)
-        if category == "integer_subtract":
-            a, b = max(a, b), min(a, b)
-            return Question(f"{a} - {b} =", str(a - b), category)
+        a, b = max(a, b), min(a, b)
+        return Question(f"{a} - {b} =", str(a - b), category)
+
+    if category == "integer_multiply":
+        a, b = random.randint(10, 99), random.randint(10, 99)
         return Question(f"{a} x {b} =", str(a * b), category)
 
     if category == "integer_divide":

@@ -15,6 +15,7 @@ The web generator runs on Cloudflare Workers. You can also run the desktop app l
 - The PDF has a student worksheet followed by a separate answer key.
 - The student page is titled **Daily Practice** and has Name, Date, Time, and Score fields on one line.
 - Subtraction questions do not produce negative answers. Integer division uses a one- or two-digit dividend. Decimal division has a terminating answer with at most three decimal places.
+- Integer multiplication uses two-digit factors (10–99).
 - Percentage multiplication includes percentage × percentage and percentage × whole number.
 - The web version supports manual progress tracking after signing in. Question-by-question answer tracking and error review are future work.
 
@@ -55,7 +56,7 @@ Files are named like `Daily Practice - integer-add - 30 Questions - Set 01 of 05
 
 ## Web preview (Cloudflare Workers)
 
-The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. Users can reveal the answer key on screen and print only the worksheet or save it as a PDF through the browser print dialog. The existing desktop PDF and printer workflow remains separate.
+The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. The browser print layout puts questions 1–20 on the first page and questions 21–30 on the second, with a continued worksheet header; the answer key is screen-only. The existing desktop PDF and printer workflow remains separate.
 
 The static page is in `public/`, and `cloudflare_worker.py` provides the FastAPI endpoints. Cloudflare serves both through a Python Worker. Install the Cloudflare tooling and run a local preview with:
 
