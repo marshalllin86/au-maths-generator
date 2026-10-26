@@ -56,7 +56,7 @@ Files are named like `Daily Practice - integer-add - 30 Questions - Set 01 of 05
 
 ## Web preview (Cloudflare Workers)
 
-The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. The browser print layout puts questions 1–20 on the first page and questions 21–30 on the second, with a continued worksheet header; the answer key is screen-only. The existing desktop PDF and printer workflow remains separate.
+The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. The browser print layout puts 15 questions on each page, with a continued worksheet header; the answer key is screen-only. The existing desktop PDF and printer workflow remains separate.
 
 The static page is in `public/`, and `cloudflare_worker.py` provides the FastAPI endpoints. Cloudflare serves both through a Python Worker. Install the Cloudflare tooling and run a local preview with:
 
