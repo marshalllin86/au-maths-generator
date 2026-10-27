@@ -17,6 +17,7 @@ The web generator runs on Cloudflare Workers. You can also run the desktop app l
 - Subtraction questions do not produce negative answers. Integer division uses a one- or two-digit dividend. Decimal division has a terminating answer with at most three decimal places.
 - Integer multiplication uses two-digit factors (10–99).
 - Percentage multiplication includes percentage × percentage and percentage × whole number.
+- Fraction practice includes the four operations with two fractions and chained multiplication/division with three fractions; answers are shown in simplest form.
 - The web version supports manual progress tracking after signing in. Question-by-question answer tracking and error review are future work.
 
 ## Weekly print pack
@@ -83,7 +84,7 @@ In Supabase Auth settings, allow the app's origin as a redirect URL, including `
 
 ## Operation choices
 
-The GUI offers integer, fraction, percentage, and decimal addition, subtraction, multiplication, and division. Percentage multiplication randomly includes both supported forms. Fraction answers are reduced to simplest form.
+The GUI offers integer, fraction, percentage, and decimal addition, subtraction, multiplication, and division. Fraction practice also includes all four operations with two fractions and chained multiplication/division with three fractions. Percentage multiplication randomly includes both supported forms. Fraction answers are reduced to simplest form. Apply the migration in `supabase/migrations/20261027001024_add_fraction_practice_topics.sql` to allow saving results under the new topics.
 
 ## Original project
 

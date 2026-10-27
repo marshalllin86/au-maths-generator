@@ -26,6 +26,8 @@ SINGLE_CATEGORIES = {
     "分数减法": "fraction_subtract",
     "分数乘法": "fraction_multiply",
     "分数除法": "fraction_divide",
+    "两分数四则运算": "fraction_two_four_operations",
+    "三分数乘除法": "fraction_three_multiply_divide",
     "百分数加法": "percent_add",
     "百分数减法": "percent_subtract",
     "百分数乘法": "percent_multiply",
@@ -108,8 +110,23 @@ def generate_question(category: str) -> Question:
         return Question(f"{a} ÷ {b} =", str(answer), category)
 
     if category.startswith("fraction_"):
-        a, b = _random_fraction(), _random_fraction()
-        op = category.split("_")[1]
+        if category == "fraction_two_four_operations":
+            a, b = _random_fraction(), _random_fraction()
+            op = random.choice(("add", "subtract", "multiply", "divide"))
+        elif category == "fraction_three_multiply_divide":
+            a, b, c = _random_fraction(), _random_fraction(), _random_fraction()
+            first_op, second_op = random.choice(("multiply", "divide")), random.choice(("multiply", "divide"))
+            first_symbol = {"multiply": "x", "divide": "÷"}[first_op]
+            second_symbol = {"multiply": "x", "divide": "÷"}[second_op]
+            answer = a * b if first_op == "multiply" else a / b
+            answer = answer * c if second_op == "multiply" else answer / c
+            return Question(
+                f"{_fraction_text(a)} {first_symbol} {_fraction_text(b)} {second_symbol} {_fraction_text(c)} =",
+                _fraction_text(answer), category,
+            )
+        else:
+            a, b = _random_fraction(), _random_fraction()
+            op = category.split("_")[1]
         if op == "add":
             answer = a + b
         elif op == "subtract":
