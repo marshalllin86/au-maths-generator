@@ -15,7 +15,11 @@ The web generator runs on Cloudflare Workers. You can also run the desktop app l
 - The PDF has a student worksheet followed by a separate answer key.
 - The student page is titled **Daily Practice** and has Name, Date, Time, and Score fields on one line.
 - Subtraction questions do not produce negative answers. Integer division uses a one- or two-digit dividend. Decimal division has a terminating answer with at most three decimal places.
+- Integer multiplication uses two-digit factors (10–99).
 - Percentage multiplication includes percentage × percentage and percentage × whole number.
+- Fraction practice includes the four operations with two fractions and chained multiplication/division with three fractions; answers are shown in simplest form.
+- Unit conversion practice covers adjacent length units (km, m, cm, mm), capacity (L, ml), time (hours, minutes, seconds), and area units (km², m², cm², mm²).
+- Word problems mix chicken-and-rabbit and boys-and-girls counting puzzles with rectangle and square area, perimeter, equal-measure, and missing-side questions.
 - The web version supports manual progress tracking after signing in. Question-by-question answer tracking and error review are future work.
 
 ## Weekly print pack
@@ -55,7 +59,7 @@ Files are named like `Daily Practice - integer-add - 30 Questions - Set 01 of 05
 
 ## Web preview (Cloudflare Workers)
 
-The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. Users can reveal the answer key on screen and print only the worksheet or save it as a PDF through the browser print dialog. The existing desktop PDF and printer workflow remains separate.
+The web preview reuses `worksheet.py` and presents the worksheet in an English-language browser page. It generates 20 questions for the selected topic and 10 mixed questions. The browser print layout puts 15 questions on each page, with a continued worksheet header; the answer key is screen-only. The existing desktop PDF and printer workflow remains separate.
 
 The static page is in `public/`, and `cloudflare_worker.py` provides the FastAPI endpoints. Cloudflare serves both through a Python Worker. Install the Cloudflare tooling and run a local preview with:
 
@@ -82,7 +86,7 @@ In Supabase Auth settings, allow the app's origin as a redirect URL, including `
 
 ## Operation choices
 
-The GUI offers integer, fraction, percentage, and decimal addition, subtraction, multiplication, and division. Percentage multiplication randomly includes both supported forms. Fraction answers are reduced to simplest form.
+The GUI offers integer, fraction, percentage, and decimal addition, subtraction, multiplication, and division. Fraction practice also includes all four operations with two fractions and chained multiplication/division with three fractions. Percentage multiplication randomly includes both supported forms. Fraction answers are reduced to simplest form. Apply the migration in `supabase/migrations/20261027001024_add_fraction_practice_topics.sql` to allow saving results under the new topics.
 
 ## Original project
 

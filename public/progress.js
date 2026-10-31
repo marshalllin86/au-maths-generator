@@ -8,6 +8,12 @@ const historyEmpty = document.querySelector("#history-empty");
 const saveForm = document.querySelector("#progress-form");
 const saveStatus = document.querySelector("#save-status");
 const saveButton = document.querySelector("#save-score-button");
+const recordCategory = document.querySelector("#record-category");
+const worksheetCategory = document.querySelector("#category");
+
+for (const option of worksheetCategory.options) {
+  recordCategory.add(new Option(option.textContent, option.value));
+}
 
 const categoryLabels = new Map(
   [...document.querySelectorAll("#category option")].map((option) => [option.value, option.textContent]),
@@ -45,8 +51,9 @@ function renderAccount() {
   }
 
   if (currentPractice) {
+    recordCategory.value = currentPractice.category;
     document.querySelector("#record-topic").textContent =
-      `${currentPractice.label} · ${currentPractice.totalQuestions} questions`;
+      `Choose the main topic to record for this ${currentPractice.totalQuestions}-question worksheet. It defaults to ${currentPractice.label}.`;
   }
 }
 
@@ -189,7 +196,7 @@ saveForm.addEventListener("submit", async (event) => {
   try {
     const { error } = await supabase.from("practice_sessions").insert({
       user_id: signedInUser.id,
-      topic: currentPractice.category,
+      topic: recordCategory.value,
       practice_date: practiceDate,
       score,
       total_questions: currentPractice.totalQuestions,

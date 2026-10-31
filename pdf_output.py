@@ -2,7 +2,7 @@
 
 from pathlib import Path
 from fpdf import FPDF
-from fpdf.enums import XPos, YPos
+from fpdf.enums import MethodReturnValue, XPos, YPos
 
 from worksheet import Question
 
@@ -26,13 +26,35 @@ def _question_rows(pdf: FPDF, questions: list[Question], start_number: int) -> N
             pdf.add_page()
             _student_header(pdf, continuation=True)
         for idx, question in enumerate(page_items, start=start_number + offset):
-            if pdf.get_y() > 270:
+            pdf.set_font("Helvetica", size=12)
+            line_height = 6
+            number_width = 12
+            question_x = pdf.l_margin + number_width
+            question_width = pdf.w - pdf.r_margin - question_x
+            text_height = pdf.multi_cell(
+                question_width,
+                line_height,
+                txt=question.prompt,
+                dry_run=True,
+                output=MethodReturnValue.HEIGHT,
+            )
+            row_height = max(12, text_height)
+            if pdf.get_y() + row_height > pdf.h - pdf.b_margin:
                 pdf.add_page()
                 _student_header(pdf, continuation=True)
+            row_y = pdf.get_y()
             pdf.set_font("Helvetica", size=12)
-            pdf.cell(12, 12, f"{idx}.", border="B")
-            pdf.cell(0, 12, question.prompt, border="B", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-            pdf.ln(2)
+            pdf.cell(number_width, row_height, f"{idx}.")
+            pdf.set_xy(question_x, row_y)
+            pdf.multi_cell(
+                question_width,
+                line_height,
+                txt=question.prompt,
+                new_x=XPos.LMARGIN,
+                new_y=YPos.NEXT,
+            )
+            pdf.line(pdf.l_margin, row_y + row_height, pdf.w - pdf.r_margin, row_y + row_height)
+            pdf.set_y(row_y + row_height + 2)
 
 
 def write_worksheet(

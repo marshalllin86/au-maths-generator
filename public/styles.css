@@ -78,6 +78,7 @@ button:focus-visible, select:focus-visible { outline: 3px solid #86b9a4; outline
 
 .worksheet { min-height: 720px; padding: 30px 34px; }
 .worksheet-header h2 { margin: 0 0 14px; text-align: center; font-family: Georgia, serif; font-size: 28px; }
+.print-worksheet { display: none; }
 .student-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 14px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); font-size: 12px; }
 .question-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .question-section h3, .answer-key h3 { margin: 20px 0 9px; font-size: 14px; }
@@ -114,9 +115,14 @@ button:focus-visible, select:focus-visible { outline: 3px solid #86b9a4; outline
   .app-shell { display: block; width: 100%; margin: 0; }
   .controls, .answer-key, .site-footer, .progress-section { display: none !important; }
   .worksheet { display: block !important; min-height: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
+  .worksheet > .worksheet-header { display: none; }
   .worksheet-header h2 { margin: 0 0 10px; font-size: 20px; }
   .student-line { gap: 8px; padding-bottom: 9px; font-size: 10px; }
-  .question-columns { display: block; }
-  .question-section h3 { margin: 12px 0 5px; font-size: 11px; }
-  .question-list li { min-height: 0; padding: 5px 3px; font-size: 10px; break-inside: avoid; }
+  .question-columns { display: none; }
+  .print-worksheet { display: block; }
+  .print-page { break-after: page; page-break-after: always; }
+  .print-page:last-child { break-after: auto; page-break-after: auto; }
+  .print-page .worksheet-header h2 { margin: 0 0 10px; font-size: 20px; }
+  .print-page h3 { margin: 12px 0 7px; font-size: 12px; }
+  .print-page .question-list li { min-height: 14mm; padding: 3mm 4mm; font-size: 14px; line-height: 1.35; break-inside: avoid; }
 }

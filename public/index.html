@@ -24,6 +24,10 @@
           <option value="fraction_subtract">Fraction subtraction</option>
           <option value="fraction_multiply">Fraction multiplication</option>
           <option value="fraction_divide">Fraction division</option>
+          <option value="fraction_two_four_operations">Four operations with two fractions</option>
+          <option value="fraction_three_multiply_divide">Multiplication and division with three fractions</option>
+          <option value="unit_conversion">Unit conversion</option>
+          <option value="word_problems">Word problems</option>
           <option value="percent_add">Percentage addition</option>
           <option value="percent_subtract">Percentage subtraction</option>
           <option value="percent_multiply">Percentage multiplication</option>
@@ -61,7 +65,7 @@
         <button class="text-button" id="answers-button" type="button" aria-expanded="false">Show answers</button>
       </div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
-      <p class="note">Use your browser’s print window to print or save the worksheet as a PDF. The answer key is excluded from printing.</p>
+      <p class="note">Use your browser’s print window to print or save the worksheet as a two-page PDF. Each page contains 15 questions. The answer key is excluded from printing.</p>
     </section>
 
     <section id="worksheet" class="worksheet" aria-label="Generated worksheet" hidden>
@@ -84,6 +88,34 @@
           <ol id="mixed-questions" class="question-list" start="21"></ol>
         </section>
       </div>
+      <div class="print-worksheet" aria-hidden="true">
+        <section class="print-page">
+          <header class="worksheet-header">
+            <h2>Daily Practice</h2>
+            <div class="student-line">
+              <span>Name: __________________</span>
+              <span>Date: ____________</span>
+              <span>Time: ______</span>
+              <span>Score: ____ / 30</span>
+            </div>
+          </header>
+          <h3>Questions 1–15</h3>
+          <ol id="print-questions-first" class="question-list"></ol>
+        </section>
+        <section class="print-page">
+          <header class="worksheet-header">
+            <h2>Daily Practice (continued)</h2>
+            <div class="student-line">
+              <span>Name: __________________</span>
+              <span>Date: ____________</span>
+              <span>Time: ______</span>
+              <span>Score: ____ / 30</span>
+            </div>
+          </header>
+          <h3>Questions 16–30</h3>
+          <ol id="print-questions-second" class="question-list" start="16"></ol>
+        </section>
+      </div>
       <section id="answer-key" class="answer-key" hidden>
         <h3>Answer Key</h3>
         <ol id="answers-list"></ol>
@@ -94,6 +126,10 @@
         <h2>Save practice result</h2>
         <p id="record-topic" class="note"></p>
         <form id="progress-form">
+          <div class="progress-field">
+            <label for="record-category">Main practice topic</label>
+            <select id="record-category" name="record-category" required></select>
+          </div>
           <div class="progress-field">
             <label for="practice-date">Practice date</label>
             <input id="practice-date" name="practice-date" type="date" required>
