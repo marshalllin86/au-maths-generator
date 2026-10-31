@@ -19,6 +19,7 @@ The web generator runs on Cloudflare Workers. You can also run the desktop app l
 - Percentage multiplication includes percentage × percentage and percentage × whole number.
 - Fraction practice includes the four operations with two fractions and chained multiplication/division with three fractions; answers are shown in simplest form.
 - Unit conversion practice covers adjacent length units (km, m, cm, mm), capacity (L, ml), time (hours, minutes, seconds), and area units (km², m², cm², mm²).
+- Word problems mix chicken-and-rabbit and boys-and-girls counting puzzles with rectangle and square area, perimeter, equal-measure, and missing-side questions.
 - The web version supports manual progress tracking after signing in. Question-by-question answer tracking and error review are future work.
 
 ## Weekly print pack

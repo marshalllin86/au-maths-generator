@@ -29,6 +29,7 @@ SINGLE_CATEGORIES = {
     "两分数四则运算": "fraction_two_four_operations",
     "三分数乘除法": "fraction_three_multiply_divide",
     "单位换算": "unit_conversion",
+    "文字应用题": "word_problems",
     "百分数加法": "percent_add",
     "百分数减法": "percent_subtract",
     "百分数乘法": "percent_multiply",
@@ -111,10 +112,90 @@ def _unit_conversion_question() -> Question:
     return Question(f"Convert: {amount} {source} = ______ {target}", str(answer), "unit_conversion")
 
 
+def _word_problem_question() -> Question:
+    """Generate a one-step counting or perimeter/area word problem."""
+    problem_type = random.choice((
+        "animal_legs", "animal_total", "people_difference",
+        "rectangle_area", "rectangle_side_from_area", "square_area",
+        "square_side_from_area", "square_side_from_perimeter",
+        "rectangle_side_from_perimeter", "same_perimeter_square",
+        "same_perimeter_rectangle", "same_area_square",
+    ))
+
+    if problem_type == "animal_legs":
+        total = random.randint(12, 40)
+        rabbits = random.randint(2, total - 2)
+        chickens = total - rabbits
+        legs = 2 * chickens + 4 * rabbits
+        if random.choice((True, False)):
+            prompt = f"There are {total} chickens and rabbits. They have {legs} legs altogether. How many rabbits are there?"
+            answer = f"{rabbits} rabbits"
+        else:
+            prompt = f"There are {total} chickens and rabbits. They have {legs} legs altogether. How many chickens are there?"
+            answer = f"{chickens} chickens"
+    elif problem_type == "animal_total":
+        rabbits, chickens = random.randint(2, 15), random.randint(2, 25)
+        legs = 2 * chickens + 4 * rabbits
+        prompt = f"A farm has {rabbits} rabbits and some chickens. The animals have {legs} legs altogether. How many animals are there?"
+        answer = str(rabbits + chickens)
+    elif problem_type == "people_difference":
+        girls = random.randint(6, 24)
+        difference = random.randint(1, min(12, girls))
+        boys = girls + difference
+        total = boys + girls
+        prompt = f"A class has {total} students. There are {difference} more boys than girls. How many boys and girls are there?"
+        answer = f"{boys} boys and {girls} girls"
+    elif problem_type == "rectangle_area":
+        length, width = random.randint(8, 30), random.randint(4, 18)
+        prompt = f"A rectangle is {length} cm long and {width} cm wide. What is its area?"
+        answer = f"{length * width} cm²"
+    elif problem_type == "rectangle_side_from_area":
+        width, length = random.randint(3, 15), random.randint(4, 18)
+        area = width * length
+        prompt = f"A rectangle has an area of {area} cm² and a length of {length} cm. What is its width?"
+        answer = f"{width} cm"
+    elif problem_type == "square_area":
+        side = random.randint(4, 20)
+        prompt = f"A square has a side length of {side} cm. What is its area?"
+        answer = f"{side * side} cm²"
+    elif problem_type == "square_side_from_area":
+        side = random.randint(4, 20)
+        prompt = f"A square has an area of {side * side} cm². What is its side length?"
+        answer = f"{side} cm"
+    elif problem_type == "square_side_from_perimeter":
+        side = random.randint(4, 25)
+        prompt = f"A square has a perimeter of {4 * side} cm. What is its side length?"
+        answer = f"{side} cm"
+    elif problem_type == "rectangle_side_from_perimeter":
+        length, width = random.randint(8, 30), random.randint(3, 15)
+        prompt = f"A rectangle has a perimeter of {2 * (length + width)} cm and a length of {length} cm. What is its width?"
+        answer = f"{width} cm"
+    elif problem_type == "same_perimeter_square":
+        length, width = random.randrange(8, 31, 2), random.randrange(4, 21, 2)
+        square_side = (length + width) // 2
+        prompt = f"A square has the same perimeter as a {length} cm by {width} cm rectangle. What is the square's side length?"
+        answer = f"{square_side} cm"
+    elif problem_type == "same_perimeter_rectangle":
+        square_side = random.randint(8, 24)
+        length = random.randint(3, 2 * square_side - 3)
+        width = 2 * square_side - length
+        prompt = f"A rectangle has the same perimeter as a square with side {square_side} cm. If its length is {length} cm, what is its width?"
+        answer = f"{width} cm"
+    else:
+        square_side = random.randrange(6, 31, 2)
+        length, width = 2 * square_side, square_side // 2
+        prompt = f"A square has the same area as a {length} cm by {width} cm rectangle. What is the square's side length?"
+        answer = f"{square_side} cm"
+
+    return Question(prompt, answer, "word_problems")
+
+
 def generate_question(category: str) -> Question:
     """Generate one exact, one-step arithmetic question."""
     if category == "unit_conversion":
         return _unit_conversion_question()
+    if category == "word_problems":
+        return _word_problem_question()
 
     if category == "integer_add_subtract":
         return generate_question(random.choice(("integer_add", "integer_subtract")))
