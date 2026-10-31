@@ -18,6 +18,7 @@ The web generator runs on Cloudflare Workers. You can also run the desktop app l
 - Integer multiplication uses two-digit factors (10–99).
 - Percentage multiplication includes percentage × percentage and percentage × whole number.
 - Fraction practice includes the four operations with two fractions and chained multiplication/division with three fractions; answers are shown in simplest form.
+- Unit conversion practice covers adjacent length units (km, m, cm, mm), capacity (L, ml), time (hours, minutes, seconds), and area units (km², m², cm², mm²).
 - The web version supports manual progress tracking after signing in. Question-by-question answer tracking and error review are future work.
 
 ## Weekly print pack

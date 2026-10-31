@@ -28,6 +28,7 @@ SINGLE_CATEGORIES = {
     "分数除法": "fraction_divide",
     "两分数四则运算": "fraction_two_four_operations",
     "三分数乘除法": "fraction_three_multiply_divide",
+    "单位换算": "unit_conversion",
     "百分数加法": "percent_add",
     "百分数减法": "percent_subtract",
     "百分数乘法": "percent_multiply",
@@ -87,8 +88,34 @@ def _integer_division() -> tuple[int, int, int]:
     return random.choice(valid)
 
 
+def _unit_conversion_question() -> Question:
+    """Generate an exact conversion between adjacent metric/time units."""
+    pairs = (
+        ("km", "m", 1_000, "length"),
+        ("m", "cm", 100, "length"),
+        ("cm", "mm", 10, "length"),
+        ("L", "ml", 1_000, "volume"),
+        ("hours", "minutes", 60, "time"),
+        ("minutes", "seconds", 60, "time"),
+        ("km²", "m²", 1_000_000, "area"),
+        ("m²", "cm²", 10_000, "area"),
+        ("cm²", "mm²", 100, "area"),
+    )
+    larger, smaller, factor, family = random.choice(pairs)
+    if random.choice((True, False)):
+        amount = random.randint(2, 20 if family == "area" else 99)
+        source, target, answer = larger, smaller, amount * factor
+    else:
+        answer = random.randint(2, 20 if family == "area" else 99)
+        source, target, amount = smaller, larger, answer * factor
+    return Question(f"Convert: {amount} {source} = ______ {target}", str(answer), "unit_conversion")
+
+
 def generate_question(category: str) -> Question:
     """Generate one exact, one-step arithmetic question."""
+    if category == "unit_conversion":
+        return _unit_conversion_question()
+
     if category == "integer_add_subtract":
         return generate_question(random.choice(("integer_add", "integer_subtract")))
     if category == "integer_multiply_divide":
