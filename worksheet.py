@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
+from datetime import date, timedelta
 from decimal import Decimal
 from fractions import Fraction
 
@@ -30,6 +31,7 @@ SINGLE_CATEGORIES = {
     "三分数乘除法": "fraction_three_multiply_divide",
     "单位换算": "unit_conversion",
     "文字应用题": "word_problems",
+    "时间日期应用题": "time_date_word_problems",
     "百分数加法": "percent_add",
     "百分数减法": "percent_subtract",
     "百分数乘法": "percent_multiply",
@@ -190,12 +192,132 @@ def _word_problem_question() -> Question:
     return Question(prompt, answer, "word_problems")
 
 
+def _clock_text(minutes: int) -> str:
+    hour, minute = divmod(minutes, 60)
+    suffix = "am" if hour < 12 else "pm"
+    display_hour = hour % 12 or 12
+    return f"{display_hour}:{minute:02d} {suffix}"
+
+
+def _duration_text(minutes: int) -> str:
+    hours, remaining_minutes = divmod(minutes, 60)
+    parts = []
+    if hours:
+        parts.append(f"{hours} hour{'s' if hours != 1 else ''}")
+    if remaining_minutes:
+        parts.append(f"{remaining_minutes} minute{'s' if remaining_minutes != 1 else ''}")
+    return " and ".join(parts)
+
+
+def _date_text(value: date) -> str:
+    return f"{value.day} {value.strftime('%B')}"
+
+
+def _time_date_word_problem() -> Question:
+    """Generate a practical elapsed-time, calendar, or age problem."""
+    problem_type = random.choice((
+        "daily_schedule", "event_duration", "days_in_weeks",
+        "days_until_birthday", "birthday_gap", "age_ratio_future",
+        "age_sum_ratio_future", "age_difference_future",
+    ))
+
+    if problem_type == "daily_schedule":
+        name = random.choice(("Mia", "Noah", "Lily", "Ethan", "Ava"))
+        start = random.randint(6 * 60 + 30, 9 * 60)
+        travel_to = random.randrange(10, 36, 5)
+        first_activity = random.randrange(45, 121, 5)
+        break_time = random.choice((0, 10, 15, 20, 30))
+        second_activity = random.randrange(45, 121, 5)
+        travel_home = random.randrange(10, 36, 5)
+        first, second = random.choice((
+            ("choir rehearsal", "basketball practice"),
+            ("basketball practice", "the cinema"),
+            ("choir rehearsal", "the cinema"),
+        ))
+        end = start + travel_to + first_activity + break_time + second_activity + travel_home
+        break_sentence = (
+            f"{name} takes a break of {_duration_text(break_time)} between them. "
+            if break_time else f"{name} has no break between the activities. "
+        )
+        prompt = (
+            f"{name} leaves home at {_clock_text(start)}. The trip to {first} takes "
+            f"{_duration_text(travel_to)}. {name} spends {_duration_text(first_activity)} at {first}. "
+            f"{break_sentence}{name} then spends {_duration_text(second_activity)} at {second} "
+            f"and travels home for {_duration_text(travel_home)}. What time do they get home?"
+        )
+        answer = _clock_text(end)
+    elif problem_type == "event_duration":
+        start = random.randint(8 * 60, 17 * 60)
+        duration = random.randrange(35, 241, 5)
+        event = random.choice(("a basketball game", "a movie", "a choir concert"))
+        prompt = f"{event.capitalize()} starts at {_clock_text(start)} and finishes at {_clock_text(start + duration)}. How long does it last?"
+        answer = _duration_text(duration)
+    elif problem_type == "days_in_weeks":
+        weeks, extra_days = random.randint(2, 6), random.randint(1, 6)
+        prompt = f"A holiday lasts {weeks} weeks and {extra_days} days. How many days is that altogether?"
+        answer = str(weeks * 7 + extra_days)
+    elif problem_type == "days_until_birthday":
+        today = random.choice((date(2027, 2, 27), date(2027, 5, 12), date(2027, 9, 21)))
+        days_left = random.choice((7, 10, 14, 21, 30, 45))
+        birthday = today + timedelta(days=days_left)
+        prompt = f"Today is {_date_text(today)}. {random.choice(('Sam', 'Ella', 'Oliver'))}'s birthday is {_date_text(birthday)}. How many days are left until the birthday?"
+        answer = str(days_left)
+    elif problem_type == "birthday_gap":
+        first_birthday = date(2027, 1, 1) + timedelta(days=random.randint(0, 319))
+        gap = random.randint(3, 20)
+        second_birthday = first_birthday + timedelta(days=gap)
+        prompt = (
+            f"Two brothers have birthdays on {_date_text(first_birthday)} and "
+            f"{_date_text(second_birthday)} in the same year. How many days apart are their birthdays?"
+        )
+        answer = str(gap)
+    elif problem_type == "age_ratio_future":
+        younger = random.randint(5, 14)
+        multiple = random.randint(2, 4)
+        older = younger * multiple
+        years_ahead = random.choice((5, 10))
+        prompt = (
+            f"Kai is {multiple} times as old as his younger brother Max. Max is {younger} years old. "
+            f"How old will each brother be in {years_ahead} years, and what will their ages add up to?"
+        )
+        answer = (
+            f"Max: {younger + years_ahead} years; Kai: {older + years_ahead} years; "
+            f"total: {younger + older + 2 * years_ahead} years"
+        )
+    elif problem_type == "age_sum_ratio_future":
+        younger = random.randint(5, 12)
+        multiple = random.randint(2, 4)
+        older = younger * multiple
+        total_now = younger + older
+        years_ahead = random.choice((5, 10))
+        prompt = (
+            f"Two brothers' ages add up to {total_now} years. The older brother is {multiple} times "
+            f"as old as the younger one. How old will each be in {years_ahead} years?"
+        )
+        answer = f"Younger: {younger + years_ahead} years; older: {older + years_ahead} years"
+    else:
+        younger = random.randint(4, 15)
+        multiple = random.randint(2, 4)
+        older = younger * multiple
+        years_apart = older - younger
+        years_ahead = random.choice((5, 10))
+        prompt = (
+            f"An older brother is {multiple} times as old as his younger brother and is "
+            f"{years_apart} years older. How old will the younger brother be in {years_ahead} years?"
+        )
+        answer = f"{younger + years_ahead} years old"
+
+    return Question(prompt, answer, "time_date_word_problems")
+
+
 def generate_question(category: str) -> Question:
     """Generate one exact, one-step arithmetic question."""
     if category == "unit_conversion":
         return _unit_conversion_question()
     if category == "word_problems":
         return _word_problem_question()
+    if category == "time_date_word_problems":
+        return _time_date_word_problem()
 
     if category == "integer_add_subtract":
         return generate_question(random.choice(("integer_add", "integer_subtract")))
