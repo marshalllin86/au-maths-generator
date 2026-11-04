@@ -32,6 +32,7 @@ SINGLE_CATEGORIES = {
     "单位换算": "unit_conversion",
     "文字应用题": "word_problems",
     "时间日期应用题": "time_date_word_problems",
+    "二维和三维图形应用题": "shape_word_problems",
     "百分数加法": "percent_add",
     "百分数减法": "percent_subtract",
     "百分数乘法": "percent_multiply",
@@ -310,6 +311,74 @@ def _time_date_word_problem() -> Question:
     return Question(prompt, answer, "time_date_word_problems")
 
 
+def _shape_word_problem() -> Question:
+    """Generate a geometry vocabulary or properties word problem."""
+    polygon_names = {
+        3: "triangle", 4: "quadrilateral", 5: "pentagon", 6: "hexagon",
+        7: "heptagon", 8: "octagon", 9: "nonagon", 10: "decagon",
+    }
+    shape_type = random.choice((
+        "polygon_name", "polygon_sides", "polygon_vertices", "polygon_angles",
+        "solid_name", "solid_faces", "solid_edges", "solid_vertices",
+    ))
+
+    if shape_type.startswith("polygon"):
+        sides = random.randint(3, 10)
+        # Four-sided polygons include familiar rectangle and square names.
+        if sides == 4:
+            name = random.choice(("rectangle", "square", "quadrilateral"))
+        else:
+            name = polygon_names[sides]
+        if shape_type == "polygon_name":
+            if name == "square":
+                prompt = "A flat shape has 4 equal sides and 4 right angles. What is its name?"
+            elif name == "rectangle":
+                prompt = "A flat shape has 4 right angles. What is its name?"
+            else:
+                prompt = f"A flat shape has {sides} straight sides. What is its name?"
+            answer = name
+        elif shape_type == "polygon_sides":
+            prompt = f"A {name} has how many sides?"
+            answer = str(sides)
+        elif shape_type == "polygon_vertices":
+            prompt = f"How many vertices (corners) does a {name} have?"
+            answer = str(sides)
+        else:
+            prompt = f"How many interior angles does a {name} have?"
+            answer = str(sides)
+    else:
+        solids = {
+            "cube": (6, 12, 8),
+            "rectangular prism": (6, 12, 8),
+            "triangular prism": (5, 9, 6),
+            "square-based pyramid": (5, 8, 5),
+            "triangular pyramid": (4, 6, 4),
+        }
+        name = random.choice(tuple(solids))
+        faces, edges, vertices = solids[name]
+        if shape_type == "solid_name":
+            descriptions = {
+                "cube": "6 equal square faces",
+                "rectangular prism": "6 rectangular faces, with some side lengths different",
+                "triangular prism": "2 triangular faces and 3 rectangular faces",
+                "square-based pyramid": "1 square face and 4 triangular faces",
+                "triangular pyramid": "4 triangular faces",
+            }
+            prompt = f"A solid has {descriptions[name]}. What is its name?"
+            answer = name
+        elif shape_type == "solid_faces":
+            prompt = f"How many faces does a {name} have?"
+            answer = str(faces)
+        elif shape_type == "solid_edges":
+            prompt = f"How many edges does a {name} have?"
+            answer = str(edges)
+        else:
+            prompt = f"How many vertices (corners) does a {name} have?"
+            answer = str(vertices)
+
+    return Question(prompt, answer, "shape_word_problems")
+
+
 def generate_question(category: str) -> Question:
     """Generate one exact, one-step arithmetic question."""
     if category == "unit_conversion":
@@ -318,6 +387,8 @@ def generate_question(category: str) -> Question:
         return _word_problem_question()
     if category == "time_date_word_problems":
         return _time_date_word_problem()
+    if category == "shape_word_problems":
+        return _shape_word_problem()
 
     if category == "integer_add_subtract":
         return generate_question(random.choice(("integer_add", "integer_subtract")))

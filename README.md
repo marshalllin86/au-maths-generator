@@ -89,6 +89,8 @@ In Supabase Auth settings, allow the app's origin as a redirect URL, including `
 
 The GUI offers integer, fraction, percentage, and decimal addition, subtraction, multiplication, and division. Fraction practice also includes all four operations with two fractions and chained multiplication/division with three fractions. Percentage multiplication randomly includes both supported forms. Fraction answers are reduced to simplest form. Apply the migration in `supabase/migrations/20261027001024_add_fraction_practice_topics.sql` to allow saving results under the new topics.
 
+The web generator also offers time and date word problems, plus 2D and 3D shape word problems. Shape practice covers polygon names from triangle through decagon (including rectangles and squares), sides, vertices/corners and angles, plus faces, edges and vertices of common 3D solids.
+
 ## Original project
 
 This project builds on [januschung/math-worksheet-generator](https://github.com/januschung/math-worksheet-generator), licensed under GPL-2.0. Its original command-line generator remains in `run.py`; the new desktop workflow starts from `app.py`.
