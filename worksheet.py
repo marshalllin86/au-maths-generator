@@ -333,7 +333,7 @@ def _shape_word_problem() -> Question:
             if name == "square":
                 prompt = "A flat shape has 4 equal sides and 4 right angles. What is its name?"
             elif name == "rectangle":
-                prompt = "A flat shape has 4 right angles. What is its name?"
+                prompt = "A flat shape has 4 right angles and two different side lengths. What is its name?"
             else:
                 prompt = f"A flat shape has {sides} straight sides. What is its name?"
             answer = name
@@ -341,10 +341,12 @@ def _shape_word_problem() -> Question:
             prompt = f"A {name} has how many sides?"
             answer = str(sides)
         elif shape_type == "polygon_vertices":
-            prompt = f"How many vertices (corners) does a {name} have?"
+            article = "an" if name[0].lower() in "aeiou" else "a"
+            prompt = f"How many vertices (corners) does {article} {name} have?"
             answer = str(sides)
         else:
-            prompt = f"How many interior angles does a {name} have?"
+            article = "an" if name[0].lower() in "aeiou" else "a"
+            prompt = f"How many interior angles does {article} {name} have?"
             answer = str(sides)
     else:
         solids = {
