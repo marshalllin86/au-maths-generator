@@ -338,7 +338,8 @@ def _shape_word_problem() -> Question:
                 prompt = f"A flat shape has {sides} straight sides. What is its name?"
             answer = name
         elif shape_type == "polygon_sides":
-            prompt = f"A {name} has how many sides?"
+            article = "an" if name[0].lower() in "aeiou" else "a"
+            prompt = f"How many sides does {article} {name} have?"
             answer = str(sides)
         elif shape_type == "polygon_vertices":
             article = "an" if name[0].lower() in "aeiou" else "a"
